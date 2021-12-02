@@ -5,11 +5,13 @@ class ProductWidget extends StatelessWidget {
   final String name;
   final String price;
   final String quantity;
+  final Function ontap;
 
   ProductWidget({
     @required this.name,
     @required this.price,
     @required this.quantity,
+    @required this.ontap,
   });
 
   @override
@@ -57,7 +59,7 @@ class ProductWidget extends StatelessWidget {
                   icon: Icon(
                     Icons.add_shopping_cart_rounded,
                   ),
-                  onPressed: () {},
+                  onPressed: ontap,
                 )
               ],
             ),

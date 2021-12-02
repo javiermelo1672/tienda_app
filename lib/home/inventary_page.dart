@@ -1,72 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:tienda_app/home/shopping_cart.dart';
-import 'package:tienda_app/home/user_orders.dart';
 import 'package:tienda_app/services/data_get_services.dart';
 import 'package:tienda_app/utils/colors_utils.dart';
 import 'package:tienda_app/widgets/buttons/button_riased_gradient_widget.dart';
 import 'package:tienda_app/widgets/product_widget.dart';
 import 'package:tienda_app/widgets/text/text_widget.dart';
+import 'package:tienda_app/widgets/textinputs/text_field_widget.dart';
 
-class HomePage extends StatefulWidget {
+class InventaryPage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _InventaryPageState createState() => _InventaryPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _InventaryPageState extends State<InventaryPage> {
   DataGetServices _dataGetServices = DataGetServices();
   List<dynamic> _data;
-  Map<String, dynamic> _dataMap = {
-    "id": -1,
-    "name": "",
-    "price": "",
-    "quantity": -1
-  };
-  List<Map<String, dynamic>> _shoppingOrder = [];
+
+  String _nombre = "";
+  String _descripcion = "";
+  String _precio = "";
+  String _cantidad = "";
+
   @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: green,
-        onPressed: () {
-          if (_shoppingOrder.length > 0) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ShoppingCarPage(
-                          shoppingOrder: _shoppingOrder,
-                        )));
-          } else {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text("Aviso"),
-                    content: Text("No hay productos en el carrito"),
-                    actions: <Widget>[
-                      FlatButton(
-                        child: Text("Aceptar"),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      )
-                    ],
-                  );
-                });
-          }
-        },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(Icons.shopping_cart),
-            Text(_shoppingOrder.length.toString())
-          ],
-        ),
-      ),
       appBar: AppBar(
-        title: Text('Tienda la 40'),
-        backgroundColor: green,
+        title: Text('Inventario'),
+        backgroundColor: mainColor,
       ),
       body: SafeArea(
           child: Padding(
@@ -90,12 +51,65 @@ class _HomePageState extends State<HomePage> {
   List<Widget> _listOfWidgets(Size size, BuildContext context) {
     return [
       globalSizedbox,
+      GlobalInputtextField(
+        obscure: false,
+        onChanged: (value) {
+          setState(() {
+            _nombre = value;
+          });
+        },
+        text: 'Nombre',
+        textinputType: TextInputType.text,
+        textStyle: null,
+      ),
+      globalSizedbox,
+      GlobalInputtextField(
+        obscure: false,
+        onChanged: (value) {
+          setState(() {
+            _descripcion = value;
+          });
+        },
+        text: 'Descripción',
+        textinputType: TextInputType.text,
+        textStyle: null,
+      ),
+      globalSizedbox,
+      GlobalInputtextField(
+        obscure: false,
+        onChanged: (value) {
+          setState(() {
+            _cantidad = value;
+          });
+        },
+        text: 'Cantidad',
+        textinputType: TextInputType.phone,
+        textStyle: null,
+      ),
+      globalSizedbox,
+      GlobalInputtextField(
+        obscure: false,
+        onChanged: (value) {
+          setState(() {
+            _precio = value;
+          });
+        },
+        text: 'Precio',
+        textinputType: TextInputType.phone,
+        textStyle: null,
+      ),
+      globalSizedbox,
       RaisedGradientButton(
         gradient: LinearGradient(
-          colors: <Color>[green, green],
+          colors: _nombre.isNotEmpty &&
+                  _descripcion.isNotEmpty &&
+                  _cantidad.isNotEmpty &&
+                  _precio.isNotEmpty
+              ? <Color>[mainColor, mainColor]
+              : <Color>[Colors.grey, Colors.grey],
         ),
         child: TextScalableWidget(
-          'VER ÓRDENES',
+          'AÑADIR PRODUCTO',
           context: context,
           style: TextStyle(
             fontSize: 18,
@@ -103,10 +117,12 @@ class _HomePageState extends State<HomePage> {
             color: Colors.white,
           ),
         ),
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => UserOrdersPage()));
-        },
+        onPressed: _nombre.isNotEmpty &&
+                _descripcion.isNotEmpty &&
+                _cantidad.isNotEmpty &&
+                _precio.isNotEmpty
+            ? () {}
+            : null,
       ),
       globalSizedbox,
       RefreshIndicator(
@@ -132,20 +148,7 @@ class _HomePageState extends State<HomePage> {
                             name: _data[index]['nombre'],
                             price: _data[index]['valor'].toString(),
                             quantity: _data[index]['cantidad'].toString(),
-                            ontap: () {
-                              Map<String, dynamic> _dataMap = {
-                                "id": -1,
-                                "name": "",
-                                "price": "",
-                                "quantity": -1
-                              };
-                              _dataMap['id'] = _data[index]['id'];
-                              _dataMap['name'] = _data[index]['nombre'];
-                              _dataMap['price'] = _data[index]['valor'];
-                              _dataMap['quantity'] = 1;
-                              _shoppingOrder.add(_dataMap);
-                              setState(() {});
-                            },
+                            ontap: null,
                           ),
                         );
                       },

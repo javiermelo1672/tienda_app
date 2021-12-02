@@ -1,72 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:tienda_app/home/shopping_cart.dart';
-import 'package:tienda_app/home/user_orders.dart';
+import 'package:tienda_app/home/admin_orders.dart';
+import 'package:tienda_app/home/inventary_page.dart';
 import 'package:tienda_app/services/data_get_services.dart';
 import 'package:tienda_app/utils/colors_utils.dart';
 import 'package:tienda_app/widgets/buttons/button_riased_gradient_widget.dart';
 import 'package:tienda_app/widgets/product_widget.dart';
 import 'package:tienda_app/widgets/text/text_widget.dart';
 
-class HomePage extends StatefulWidget {
+class HomePageAdmin extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomePageAdminState createState() => _HomePageAdminState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageAdminState extends State<HomePageAdmin> {
   DataGetServices _dataGetServices = DataGetServices();
   List<dynamic> _data;
-  Map<String, dynamic> _dataMap = {
-    "id": -1,
-    "name": "",
-    "price": "",
-    "quantity": -1
-  };
+
   List<Map<String, dynamic>> _shoppingOrder = [];
   @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: green,
-        onPressed: () {
-          if (_shoppingOrder.length > 0) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ShoppingCarPage(
-                          shoppingOrder: _shoppingOrder,
-                        )));
-          } else {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text("Aviso"),
-                    content: Text("No hay productos en el carrito"),
-                    actions: <Widget>[
-                      FlatButton(
-                        child: Text("Aceptar"),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      )
-                    ],
-                  );
-                });
-          }
-        },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(Icons.shopping_cart),
-            Text(_shoppingOrder.length.toString())
-          ],
-        ),
-      ),
       appBar: AppBar(
         title: Text('Tienda la 40'),
-        backgroundColor: green,
+        backgroundColor: mainColor,
       ),
       body: SafeArea(
           child: Padding(
@@ -92,7 +49,7 @@ class _HomePageState extends State<HomePage> {
       globalSizedbox,
       RaisedGradientButton(
         gradient: LinearGradient(
-          colors: <Color>[green, green],
+          colors: <Color>[mainColor, mainColor],
         ),
         child: TextScalableWidget(
           'VER ÓRDENES',
@@ -105,7 +62,26 @@ class _HomePageState extends State<HomePage> {
         ),
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => UserOrdersPage()));
+              MaterialPageRoute(builder: (context) => AdminOrdersPage()));
+        },
+      ),
+      globalSizedbox,
+      RaisedGradientButton(
+        gradient: LinearGradient(
+          colors: <Color>[mainColor, mainColor],
+        ),
+        child: TextScalableWidget(
+          'VER INVENTARIO',
+          context: context,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => InventaryPage()));
         },
       ),
       globalSizedbox,

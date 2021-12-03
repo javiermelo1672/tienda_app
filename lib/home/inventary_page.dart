@@ -23,6 +23,11 @@ class _InventaryPageState extends State<InventaryPage> {
   String _cantidad = "";
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
     return Scaffold(

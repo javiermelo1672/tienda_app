@@ -129,9 +129,10 @@ class _HomePageState extends State<HomePage> {
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: ProductWidget(
-                            name: _data[index]['nombre'],
-                            price: _data[index]['valor'].toString(),
-                            quantity: _data[index]['cantidad'].toString(),
+                            name: _data[index]['producto_nombre'],
+                            price: _data[index]['producto_valor'].toString(),
+                            quantity:
+                                _data[index]['producto_cantidad'].toString(),
                             ontap: () {
                               Map<String, dynamic> _dataMap = {
                                 "id": -1,
@@ -140,8 +141,10 @@ class _HomePageState extends State<HomePage> {
                                 "quantity": -1
                               };
                               _dataMap['id'] = _data[index]['id'];
-                              _dataMap['name'] = _data[index]['nombre'];
-                              _dataMap['price'] = _data[index]['valor'];
+                              _dataMap['name'] =
+                                  _data[index]['producto_nombre'];
+                              _dataMap['price'] =
+                                  _data[index]['producto_valor'];
                               _dataMap['quantity'] = 1;
                               _shoppingOrder.add(_dataMap);
                               setState(() {});

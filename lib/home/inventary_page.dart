@@ -156,9 +156,10 @@ class _InventaryPageState extends State<InventaryPage> {
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: ProductWidget(
-                            name: _data[index]['nombre'],
-                            price: _data[index]['valor'].toString(),
-                            quantity: _data[index]['cantidad'].toString(),
+                            name: _data[index]['producto_nombre'],
+                            price: _data[index]['producto_valor'].toString(),
+                            quantity:
+                                _data[index]['producto_cantidad'].toString(),
                             ontap: null,
                           ),
                         );

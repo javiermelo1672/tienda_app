@@ -98,7 +98,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                 _data = snapshot.data;
                 if (_data.length != 0) {
                   return Container(
-                    height: size.height * 0.8,
+                    height: size.height * 0.6,
                     child: ListView.builder(
                       itemCount: _data.length,
                       itemBuilder: (_, index) {

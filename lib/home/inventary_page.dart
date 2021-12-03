@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tienda_app/home/shopping_cart.dart';
 import 'package:tienda_app/services/data_get_services.dart';
+import 'package:tienda_app/services/data_post_services.dart';
 import 'package:tienda_app/utils/colors_utils.dart';
 import 'package:tienda_app/widgets/buttons/button_riased_gradient_widget.dart';
 import 'package:tienda_app/widgets/product_widget.dart';
@@ -14,6 +14,7 @@ class InventaryPage extends StatefulWidget {
 
 class _InventaryPageState extends State<InventaryPage> {
   DataGetServices _dataGetServices = DataGetServices();
+  DataPostService _dataPostService = DataPostService();
   List<dynamic> _data;
 
   String _nombre = "";
@@ -121,7 +122,12 @@ class _InventaryPageState extends State<InventaryPage> {
                 _descripcion.isNotEmpty &&
                 _cantidad.isNotEmpty &&
                 _precio.isNotEmpty
-            ? () {}
+            ? () async {
+                await _dataPostService.addProducts(
+                    _nombre, _cantidad, _precio, _descripcion);
+                _data = await _dataGetServices.getProducts();
+                setState(() {});
+              }
             : null,
       ),
       globalSizedbox,
@@ -138,7 +144,7 @@ class _InventaryPageState extends State<InventaryPage> {
                 _data = snapshot.data;
                 if (_data.length != 0) {
                   return Container(
-                    height: size.height * 0.8,
+                    height: size.height * 0.3,
                     child: ListView.builder(
                       itemCount: _data.length,
                       itemBuilder: (_, index) {

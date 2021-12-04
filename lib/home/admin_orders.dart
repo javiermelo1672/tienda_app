@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tienda_app/home/shopping_cart.dart';
 import 'package:tienda_app/services/data_get_services.dart';
 import 'package:tienda_app/utils/colors_utils.dart';
-import 'package:tienda_app/widgets/buttons/button_riased_gradient_widget.dart';
 import 'package:tienda_app/widgets/orders_widget.dart';
-import 'package:tienda_app/widgets/product_widget.dart';
-import 'package:tienda_app/widgets/text/text_widget.dart';
 
 class AdminOrdersPage extends StatefulWidget {
   @override
@@ -14,7 +10,7 @@ class AdminOrdersPage extends StatefulWidget {
 
 class _AdminOrdersPageState extends State<AdminOrdersPage> {
   DataGetServices _dataGetServices = DataGetServices();
-  List<dynamic> _data;
+  Map<String, dynamic> _data;
   Map<String, dynamic> _dataMap = {
     "id": -1,
     "name": "",
@@ -54,24 +50,35 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
       globalSizedbox,
       RefreshIndicator(
         onRefresh: () async {
-          _data = await _dataGetServices.getProducts();
+          _data = await _dataGetServices.getOrders();
           setState(() {});
         },
         color: Colors.black,
         child: FutureBuilder(
-            future: _dataGetServices.getProducts(),
+            future: _dataGetServices.getOrders(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 _data = snapshot.data;
-                if (_data.length != 0) {
+                if (_data['pedidos'].length != 0) {
                   return Container(
                     height: size.height * 0.8,
                     child: ListView.builder(
-                      itemCount: _data.length,
+                      itemCount: _data['pedidos'].length,
                       itemBuilder: (_, index) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: OrdersWidget(),
+                          child: OrdersWidget(
+                            name: _data['pedidos'][index]['id'].toString(),
+                            ontap: null,
+                            price: _data['pedidos'][index]['valor_pedido']
+                                .toString(),
+                            quantity: _data['pedidos'][index]['productos']
+                                .length
+                                .toString(),
+                            date: _data['pedidos'][index]['date'].toString(),
+                            status:
+                                _data['pedidos'][index]['status'].toString(),
+                          ),
                         );
                       },
                     ),

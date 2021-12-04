@@ -5,13 +5,17 @@ class OrdersWidget extends StatelessWidget {
   final String name;
   final String price;
   final String quantity;
+  final String date;
   final Function ontap;
+  final String status;
 
   OrdersWidget({
     @required this.name,
     @required this.price,
     @required this.quantity,
     @required this.ontap,
+    @required this.date,
+    @required this.status,
   });
 
   @override
@@ -32,7 +36,7 @@ class OrdersWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        name ?? "Órden # 456",
+                        name != null ? "Órden # $name" : "Órden # 456",
                         style: TextStyle(
                             fontSize: 19, fontWeight: FontWeight.w600),
                       ),
@@ -40,7 +44,9 @@ class OrdersWidget extends StatelessWidget {
                         height: 5,
                       ),
                       Text(
-                        price ?? "(8) productos",
+                        quantity != null
+                            ? "($quantity) productos"
+                            : "(8) productos",
                         style: TextStyle(
                             fontSize: 14, fontWeight: FontWeight.w600),
                       ),
@@ -48,7 +54,7 @@ class OrdersWidget extends StatelessWidget {
                         height: 5,
                       ),
                       Text(
-                        quantity ?? "45000 COP",
+                        price != null ? "$price COP" : "45000 COP",
                         style: TextStyle(
                             fontSize: 19, fontWeight: FontWeight.w600),
                       ),
@@ -56,7 +62,15 @@ class OrdersWidget extends StatelessWidget {
                         height: 5,
                       ),
                       Text(
-                        quantity ?? "25/04/2021 12:34:00",
+                        date ?? "25/04/2021 12:34:00",
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        status ?? "25/04/2021 12:34:00",
                         style: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.w600),
                       ),

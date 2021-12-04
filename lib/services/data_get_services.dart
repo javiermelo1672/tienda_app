@@ -15,4 +15,15 @@ class DataGetServices {
       return null;
     }
   }
+
+  Future<Map<String, dynamic>> getOrders() async {
+    try {
+      final Response resp = await _dioGet.get(globalEndpoint + getOrdenes);
+      String decodeResp = resp.data;
+      Map<String, dynamic> decodeMap = json.decode(decodeResp);
+      return decodeMap;
+    } catch (e) {
+      return null;
+    }
+  }
 }

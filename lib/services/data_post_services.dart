@@ -21,4 +21,16 @@ class DataPostService {
       return false;
     }
   }
+
+  Future<bool> addOrder(List<dynamic> pedido) async {
+    try {
+      Map<String, dynamic> _body = {"customer_id_fk": 2, "pedido": pedido};
+      final Response resp =
+          await _dioPost.post(globalEndpoint + guardarOrden, data: _body);
+      print(resp);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tienda_app/services/data_post_services.dart';
 import 'package:tienda_app/utils/colors_utils.dart';
 import 'package:tienda_app/widgets/buttons/button_riased_gradient_widget.dart';
 import 'package:tienda_app/widgets/product_widget.dart';
@@ -12,6 +13,7 @@ class ShoppingCarPage extends StatefulWidget {
 }
 
 class _ShoppingCarPageState extends State<ShoppingCarPage> {
+  DataPostService _dataPostService = DataPostService();
   @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
@@ -85,6 +87,26 @@ class _ShoppingCarPageState extends State<ShoppingCarPage> {
             color: Colors.white,
           ),
         ),
+        onPressed: () {
+          List _order = [];
+
+          for (int i = 0; i < widget.shoppingOrder.length; i++) {
+            Map<String, dynamic> _orderMap = {
+              "product_id": 0,
+              "cantidad_seleccionada": 0
+            };
+
+            _orderMap['product_id'] = widget.shoppingOrder[i]['id'];
+            _orderMap['cantidad_seleccionada'] =
+                widget.shoppingOrder[i]['quantity'];
+
+            _order.add(_orderMap);
+          }
+
+          _dataPostService.addOrder(_order).then((value) {
+            //Navigator.pop(context);
+          });
+        },
       )
     ];
   }
